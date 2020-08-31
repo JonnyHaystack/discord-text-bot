@@ -1,0 +1,32 @@
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "extends": [
+      "airbnb",
+      "prettier"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "rules": {
+      "no-console": 0,
+      "indent": ["warn", 4, { "SwitchCase": 1 }],
+      "spaced-comment": "off",
+      "object-shorthand": "off",
+      "comma-dangle": "off",
+      "prefer-arrow-callback": "warn",
+      "no-unused-vars": "warn",
+      "prefer-template": "warn",
+      "func-names": "off",
+      "no-param-reassign": ["warn", {
+        "props": false
+      }],
+      "no-underscore-dangle": ["warn", {
+        "allow": ["_links", "_embedded", "_id", "_isAMomentObject", "_doc"]
+      }],
+      "import/prefer-default-export": "warn"
+    }
+}

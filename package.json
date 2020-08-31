@@ -1,0 +1,29 @@
+{
+  "name": "discord-text-bot",
+  "version": "1.0.0",
+  "description": "Simple Discord bot that allows users to dynamically define custom commands",
+  "main": "bot.js",
+  "dependencies": {
+    "discord.js": "^12.3.1",
+    "eslint": "^7.7.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonnyHaystack/discord-text-bot.git"
+  },
+  "author": "Jonathan Haylett",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/JonnyHaystack/discord-text-bot/issues"
+  },
+  "homepage": "https://github.com/JonnyHaystack/discord-text-bot#readme"
+}
