@@ -89,7 +89,8 @@ function saveCommands() {
     fs.writeFile("commands.json", data, (err) => {
         if (err) {
             console.log("Failed to save custom command.");
-            throw err;
+            console.log(err);
+            return;
         }
         console.log("Saved custom commands.");
     });
