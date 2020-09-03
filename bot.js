@@ -106,7 +106,7 @@ function saveCommands() {
 
 function listCommands() {
     return Object.keys(customCommands)
-        .map((command) => `${config.prefix}${command}`)
+        .map((command) => `\`${config.prefix}${command}\``)
         .join(", ");
 }
 
