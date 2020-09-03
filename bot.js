@@ -81,7 +81,9 @@ client.on("message", (msg) => {
 });
 
 function handleCustomCommand(msg, command) {
-    msg.channel.send(customCommands[command]);
+    msg.channel.send(customCommands[command]).then((sentMessage) => {
+        sentMessage.suppressEmbeds(true);
+    });
 }
 
 function saveCommands() {
