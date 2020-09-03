@@ -58,15 +58,21 @@ client.on("message", (msg) => {
 
         const customCommandName = args[0].toLowerCase();
 
-        delete customCommands[customCommandName];
-        saveCommands();
+        if (customCommands.hasOwnProperty(customCommandName)) {
+            delete customCommands[customCommandName];
+            saveCommands();
 
-        console.log(
-            `Command ${config.prefix}${customCommandName} has been deleted.`
-        );
-        msg.channel.send(
-            `Command ${config.prefix}${customCommandName} has been deleted.`
-        );
+            console.log(
+                `Command ${config.prefix}${customCommandName} has been deleted.`
+            );
+            msg.channel.send(
+                `Command ${config.prefix}${customCommandName} has been deleted.`
+            );
+        } else {
+            msg.channel.send(
+                `Command ${config.prefix}${customCommandName} does not exist.`
+            );
+        }
     } else if (command === "help") {
         msg.channel.send(
             `To create a new command, type "!define <command name> ` +
@@ -81,8 +87,23 @@ client.on("message", (msg) => {
 });
 
 function handleCustomCommand(msg, command) {
+    // Look up command from the loaded commands.json, then send the text of that
+    // command to the channel in which the command was used.
     msg.channel.send(customCommands[command]).then((sentMessage) => {
-        sentMessage.suppressEmbeds(true);
+        // Filter embeds to get only the image and gifv embeds, then edit the
+        // message to contain these embeds only.
+        const imageEmbedsOnly = sentMessage.embeds.filter(
+            (embed) => embed.type === "image" || embed.type === "gifv"
+        );
+
+        // If not all embeds are images, remove all embeds and re-add the
+        // images.
+        if (imageEmbedsOnly.length < sentMessage.embeds.length) {
+            sentMessage.suppressEmbeds(true);
+            imageEmbedsOnly.forEach((embed) =>
+                sentMessage.edit(sentMessage.content, embed.thumbnail.proxyURL)
+            );
+        }
     });
 }
 
