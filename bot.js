@@ -136,7 +136,7 @@ client.on("message", (msg) => {
 function handleCustomCommand(msg, command) {
     // Look up command from the loaded commands.json, then send the text of that
     // command to the channel in which the command was used.
-    msg.channel.send(customCommands[command]);
+    msg.channel.send(customCommands[command].text);
 }
 
 function saveCommands() {
