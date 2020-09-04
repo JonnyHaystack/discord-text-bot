@@ -1,5 +1,6 @@
 const fs = require("fs");
 const Discord = require("discord.js");
+const { dynamicSort } = require("./sort");
 const config = require("./config.json");
 const permissions = require("./permissions.json");
 
@@ -36,7 +37,7 @@ client.on("message", (msg) => {
         const customCommandName = args[0].toLowerCase();
         const customCommandText = args.splice(1).join(" ");
 
-        customCommands[customCommandName] = customCommandText;
+        customCommands[customCommandName] = { text: customCommandText };
         saveCommands();
 
         console.log(
@@ -73,11 +74,57 @@ client.on("message", (msg) => {
                 `Command ${config.prefix}${customCommandName} does not exist.`
             );
         }
+    } else if (command === "tag") {
+        if (!isAdmin(msg.member)) return;
+
+        // Usage text.
+        if (args.length < 2) {
+            msg.channel.send(
+                `Usage: ${config.prefix}${command} <command> <category>`
+            );
+        }
+
+        const customCommandName = args[0].toLowerCase();
+        const category = args[1];
+
+        if (customCommands.hasOwnProperty(customCommandName)) {
+            // The special category "clear" means to remove the current category
+            // of the command.
+            if (category === "clear") {
+                delete customCommands[customCommandName].category;
+
+                console.log(
+                    `Cleared category of command ` +
+                        `${config.prefix}${customCommandName}`
+                );
+                msg.channel.send(
+                    `Cleared category of command ` +
+                        `${config.prefix}${customCommandName}`
+                );
+            } else {
+                customCommands[customCommandName].category = category;
+
+                console.log(
+                    `Command ${config.prefix}${customCommandName} has been ` +
+                        `moved to category ${category}.`
+                );
+                msg.channel.send(
+                    `Command ${config.prefix}${customCommandName} has been ` +
+                        `moved to category ${category}.`
+                );
+            }
+
+            saveCommands();
+        } else {
+            msg.channel.send(
+                `Command ${config.prefix}${customCommandName} does not exist.`
+            );
+        }
     } else if (command === "help") {
         msg.channel.send(
             `To create a new command, type "!define <command name> ` +
                 `<what you want the command to say>"\n` +
-                `Currently defined commands are: ${listCommands()}`
+                `Currently defined commands are:\n${listCommands()}`
         );
     } else if (customCommands.hasOwnProperty(command)) {
         // This message handler must come last otherwise it would allow built-in
@@ -105,9 +152,31 @@ function saveCommands() {
 }
 
 function listCommands() {
-    return Object.keys(customCommands)
-        .map((command) => `\`${config.prefix}${command}\``)
-        .join(", ");
+    // Group commands by category.
+    const customCommandsArray = Object.keys(customCommands).map((key) => ({
+        name: key,
+        category:
+            customCommands[key].category === undefined
+                ? "Misc"
+                : customCommands[key].category,
+    }));
+    const commandsGroupedByCategory = groupBy(customCommandsArray, "category");
+
+    // Print each category separately for ease of reading.
+    let commandsList = "";
+    Object.keys(commandsGroupedByCategory).forEach((categoryName) => {
+        commandsList += `${categoryName}: `;
+
+        // Sort commands alphabetically.
+        commandsGroupedByCategory[categoryName].sort(dynamicSort("name"));
+
+        // Print command list for this category.
+        commandsList += commandsGroupedByCategory[categoryName]
+            .map((command) => `\`${config.prefix}${command.name}\``)
+            .join(", ");
+        commandsList += "\n";
+    });
+    return commandsList;
 }
 
 function isAdmin(member) {
@@ -126,6 +195,14 @@ function isAdmin(member) {
     return memberRoles.some(
         (role) => adminRoles.includes(role.name) || adminRoles.includes("*")
     );
+}
+
+// Taken from https://stackoverflow.com/a/34890276
+function groupBy(arr, key) {
+    return arr.reduce(function (rv, x) {
+        (rv[x[key]] = rv[x[key]] || []).push(x);
+        return rv;
+    }, {});
 }
 
 client.login(config.token);
