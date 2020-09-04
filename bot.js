@@ -121,11 +121,7 @@ client.on("message", (msg) => {
             );
         }
     } else if (command === "help") {
-        msg.channel.send(
-            `To create a new command, type "!define <command name> ` +
-                `<what you want the command to say>"\n` +
-                `Currently defined commands are:\n${listCommands()}`
-        );
+        msg.channel.send(`Currently defined commands are:\n${listCommands()}`);
     } else if (customCommands.hasOwnProperty(command)) {
         // This message handler must come last otherwise it would allow built-in
         // commands to be overriden.
