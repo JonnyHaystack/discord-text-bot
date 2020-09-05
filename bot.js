@@ -37,7 +37,10 @@ client.on("message", (msg) => {
         const customCommandName = args[0].toLowerCase();
         const customCommandText = args.splice(1).join(" ");
 
-        customCommands[customCommandName] = { text: customCommandText };
+        customCommands[customCommandName] = {
+            ...customCommands[customCommandName],
+            text: customCommandText,
+        };
         saveCommands();
 
         console.log(
