@@ -3,6 +3,12 @@ const { dynamicSort } = require("../sort");
 const config = require("../config.json");
 
 function execute(msg, args) {
+    if (config.hasOwnProperty("botSpamChannel")) {
+        msg.channel.send(
+            `If you want to test multiple bot commands, please use ` +
+                `<#${config.botSpamChannel}>\n`
+        );
+    }
     msg.channel.send(`Currently defined commands are:\n${listCommands()}`);
 }
 
