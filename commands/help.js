@@ -28,6 +28,12 @@ function listCommands() {
     // Print each category separately for ease of reading.
     let commandsList = "";
     Object.keys(commandsGroupedByCategory).forEach((categoryName) => {
+        if (
+            config.hasOwnProperty("hiddenCategories") &&
+            config.hiddenCategories.includes(categoryName)
+        )
+            return;
+
         commandsList += `${categoryName}: `;
 
         // Sort commands alphabetically.
