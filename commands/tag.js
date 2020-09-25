@@ -42,7 +42,12 @@ function execute(msg, args) {
             );
         }
 
-        customCommands.saveCommands();
+        try {
+            customCommands.saveCommands();
+        } catch (err) {
+            msg.channel.send("Failed to save command.");
+            return;
+        }
     } else {
         msg.channel.send(
             `Command ${config.prefix}${customCommandName} does not exist.`

@@ -15,7 +15,13 @@ function execute(msg, args) {
 
     if (customCommands.commands.hasOwnProperty(customCommandName)) {
         delete customCommands.commands[customCommandName];
-        customCommands.saveCommands();
+
+        try {
+            customCommands.saveCommands();
+        } catch (err) {
+            msg.channel.send("Failed to save command.");
+            return;
+        }
 
         console.log(
             `Command ${config.prefix}${customCommandName} has been deleted.`

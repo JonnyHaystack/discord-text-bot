@@ -20,7 +20,13 @@ function execute(msg, args) {
         ...customCommands.commands[customCommandName],
         text: customCommandText,
     };
-    customCommands.saveCommands();
+
+    try {
+        customCommands.saveCommands();
+    } catch (err) {
+        msg.channel.send("Failed to save command.");
+        return;
+    }
 
     console.log(
         `Command ${config.prefix}${customCommandName} has been defined.`

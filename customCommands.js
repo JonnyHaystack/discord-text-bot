@@ -21,7 +21,7 @@ function saveCommands() {
         if (err) {
             console.log("Failed to save custom command.");
             console.log(err);
-            return;
+            throw err;
         }
         console.log("Saved custom commands.");
     });
