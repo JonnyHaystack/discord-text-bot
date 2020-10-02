@@ -4,16 +4,22 @@ const config = require("../config.json");
 
 function execute(msg, args) {
     let helpMessage = "";
-    if (config.hasOwnProperty("botSpamChannel")) {
-        helpMessage +=
-            `If you want to test multiple bot commands, please use ` +
-            `<#${config.botSpamChannel}>\n`;
+    let category = null;
+    if (args.length == 1) {
+        category = args[0];
+    } else {
+        if (config.hasOwnProperty("botSpamChannel")) {
+            helpMessage +=
+                `If you want to test multiple bot commands, please use ` +
+                `<#${config.botSpamChannel}>\n`;
+        }
+        helpMessage += "Currently defined commands are:\n";
     }
-    helpMessage += `Currently defined commands are:\n${listCommands()}`;
+    helpMessage += listCommands(category);
     msg.channel.send(helpMessage);
 }
 
-function listCommands() {
+function listCommands(category) {
     // Group commands by category.
     const commands = customCommands.commands;
     const commandsArray = Object.keys(commands).map((key) => ({
@@ -28,9 +34,19 @@ function listCommands() {
     // Print each category separately for ease of reading.
     let commandsList = "";
     Object.keys(commandsGroupedByCategory).forEach((categoryName) => {
+        // Exclude hidden categories (unless a category is explicitly
+        // specified).
         if (
+            category == null &&
             config.hasOwnProperty("hiddenCategories") &&
             config.hiddenCategories.includes(categoryName)
+        )
+            return;
+        // If category is specified, exclude all but the specified category
+        // (case-insensitive though so it could technically match multiple).
+        if (
+            category != null &&
+            categoryName.toUpperCase() != category.toUpperCase()
         )
             return;
 
