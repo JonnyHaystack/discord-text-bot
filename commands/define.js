@@ -8,7 +8,8 @@ function execute(msg, args) {
     // Usage text.
     if (args.length < 2) {
         msg.channel.send(
-            `Usage: ${config.prefix}${command} <command name> <text>`
+            `Usage: ${config.prefix}${module.exports.name} <command name> ` +
+                `<text>`
         );
         return;
     }

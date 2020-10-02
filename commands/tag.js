@@ -8,8 +8,9 @@ function execute(msg, args) {
     // Usage text.
     if (args.length < 2) {
         msg.channel.send(
-            `Usage: ${config.prefix}${command} <command> <category>`
+            `Usage: ${config.prefix}${module.exports.name} <command> <category>`
         );
+        return;
     }
 
     const customCommandName = args[0].toLowerCase();
