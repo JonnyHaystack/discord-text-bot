@@ -8,10 +8,8 @@ function execute(msg, args) {
     if (args.length == 1) {
         category = args[0];
     } else {
-        if (config.hasOwnProperty("botSpamChannel")) {
-            helpMessage +=
-                `If you want to test multiple bot commands, please use ` +
-                `<#${config.botSpamChannel}>\n`;
+        if (config.hasOwnProperty("helpPrefix")) {
+            helpMessage += `${config.helpPrefix}\n`;
         }
         helpMessage += "Currently defined commands are:\n";
     }
