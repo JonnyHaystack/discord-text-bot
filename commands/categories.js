@@ -9,7 +9,7 @@ function execute(msg, args) {
         ),
     ];
     const response =
-        `Type "!help <category>" to view the commands in a category.\n` +
+        "Type `!help <category>` to view the commands in a category.\n" +
         `Existing categories: ${categories.join(", ")}`;
     msg.channel.send(response);
 }
