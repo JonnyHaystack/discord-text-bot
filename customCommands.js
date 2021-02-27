@@ -10,6 +10,12 @@ try {
 }
 
 function execute(msg, command) {
+    // If it is an alias, change the command name to the name that the alias
+    // points to.
+    if (commands[command].hasOwnProperty("alias")) {
+        command = commands[command].alias;
+    }
+
     // Look up command from the loaded commands.json, then send the text of that
     // command to the channel in which the command was used.
     msg.channel.send(commands[command].text);

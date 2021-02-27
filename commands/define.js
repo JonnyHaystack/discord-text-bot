@@ -22,6 +22,10 @@ function execute(msg, args) {
         text: customCommandText,
     };
 
+    // In case this command was an alias before, make sure to remove the alias
+    // property from it.
+    delete customCommands.commands[customCommandName].alias;
+
     try {
         customCommands.saveCommands();
     } catch (err) {
