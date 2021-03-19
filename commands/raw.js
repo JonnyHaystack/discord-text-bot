@@ -16,18 +16,28 @@ function execute(msg, args) {
     const customCommandName = args[0].toLowerCase();
 
     if (customCommands.commands.hasOwnProperty(customCommandName)) {
+        const customCommand = customCommands.commands[customCommandName];
+
+        if (customCommand.hasOwnProperty("alias")) {
+            msg.channel.send(
+                "```!alias " +
+                    customCommandName +
+                    " " +
+                    customCommand.alias +
+                    "```"
+            );
+            return;
+        }
+
         msg.channel.send(
-            "```!define " +
-                customCommandName +
-                " " +
-                customCommands.commands[customCommandName].text +
-                "```"
+            "```!define " + customCommandName + " " + customCommand.text + "```"
         );
-    } else {
-        msg.channel.send(
-            `Command ${config.prefix}${customCommandName} does not exist.`
-        );
+        return;
     }
+
+    msg.channel.send(
+        `Command ${config.prefix}${customCommandName} does not exist.`
+    );
 }
 
 module.exports = {
