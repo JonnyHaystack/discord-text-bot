@@ -3,7 +3,7 @@ const fs = require("fs");
 // Load user-defined commands.
 let commands;
 try {
-    commands = JSON.parse(fs.readFileSync("commands.json", "utf8"));
+    commands = JSON.parse(fs.readFileSync("./data/commands.json", "utf8"));
 } catch (err) {
     console.log(err);
     commands = {};
@@ -23,7 +23,7 @@ function execute(msg, command) {
 
 function saveCommands() {
     const data = JSON.stringify(commands);
-    fs.writeFile("commands.json", data, (err) => {
+    fs.writeFile("./data/commands.json", data, (err) => {
         if (err) {
             console.log("Failed to save custom command.");
             console.log(err);
