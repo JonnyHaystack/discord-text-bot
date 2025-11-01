@@ -1,6 +1,6 @@
 const customCommands = require("../customCommands");
 const { dynamicSort } = require("../sort");
-const config = require("../config.json");
+const config = require("../config/config.json");
 
 function execute(msg, args) {
     let helpMessage = "";

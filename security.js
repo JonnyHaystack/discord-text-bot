@@ -1,4 +1,4 @@
-const permissions = require("./permissions.json");
+const permissions = require("./config/permissions.json");
 
 function isAdmin(member) {
     const guildName = member.guild.name;

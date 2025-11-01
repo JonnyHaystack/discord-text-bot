@@ -1,6 +1,6 @@
 const customCommands = require("../customCommands");
 const security = require("../security");
-const config = require("../config.json");
+const config = require("../config/config.json");
 
 function execute(msg, args) {
     if (!security.isAdmin(msg.member)) return;

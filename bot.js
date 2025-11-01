@@ -1,7 +1,7 @@
 const fs = require("fs");
 const Discord = require("discord.js");
 const customCommands = require("./customCommands");
-const config = require("./config.json");
+const config = require("./config/config.json");
 
 const client = new Discord.Client();
 
